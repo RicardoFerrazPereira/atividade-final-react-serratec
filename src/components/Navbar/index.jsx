@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import { SwitchWrapper, MaterialUISwitch } from "./styles";
-import { TemaContext, UsuarioContext } from "../../context";
+import { TemaContext, UsuarioContext, AlunoContext } from "../../context";
 
 export default function Navbar(props) {
   const { temaSelecionado, setTemaSelecionado } = useContext(TemaContext);

@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Styles from "../../components/Styles";
 import { API_URL } from "../../constants";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useParams } from "react-router";
+import { AlunoContext } from "../../context";
 
 const CadastrarAlunos = () => {
   const { id } = useParams();
@@ -15,10 +16,11 @@ const CadastrarAlunos = () => {
   const [idade, setIdade] = useState(valorInicial);
   const [cidade, setCidade] = useState(valorInicial);
 
-  useEffect(()=> {
-    getAlunos()
+  useEffect(() => {
+    getAluno()
   }, []);
 
+  /*
   const getAlunos = () => {
     axios.get(API_URL).then((response) => {
       response.data.forEach(aluno => {
@@ -30,9 +32,24 @@ const CadastrarAlunos = () => {
       })
     });
   };
+  */
+  const { alunoSelecionado, setAlunoSelecionado } = useContext(AlunoContext);
+
+  const getAluno = () => {
+    alunoSelecionado.map(aluno => {
+      console.log(alunoSelecionado)
+      if (aluno.id == id) {
+        setNome(aluno.nome)
+        setIdade(aluno.idade)
+        setCidade(aluno.cidade)
+      }
+    }
+    )
+  };
 
   const cadastrarAlunos = () => {
     if (id) {
+     // axios.put(`${API_URL}/${id} `, {
       axios.put(API_URL, {
         id,
         nome,

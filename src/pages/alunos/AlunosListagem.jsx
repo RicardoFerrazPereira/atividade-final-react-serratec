@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { StyledTableCell, StyledTableRow } from "./styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../../constants";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,11 +17,13 @@ import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../lotties/78259-loading.json";
+import { AlunoContext } from "../../context";
+
 
 const AlunosListagem = () => {
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
-  const [alunos, setAlunos] = useState([]);
+  const { alunoSelecionado, setAlunoSelecionado } = useContext(AlunoContext);
 
   const defaultOptions = {
     loop: true,
@@ -38,7 +40,7 @@ const AlunosListagem = () => {
 
   const getAlunos = () => {
     axios.get(API_URL).then((response) => {
-      setAlunos(response.data);
+      setAlunoSelecionado(response.data);
     });
   };
 
@@ -48,12 +50,12 @@ const AlunosListagem = () => {
       .then((response) => {
         MySwal.fire(<p>{response?.data?.message}</p>);
 
-        const alunoIndex = alunos.findIndex(
+        const alunoIndex = alunoSelecionado.findIndex(
           (elemento) => elemento.id === aluno.id
         );
-        let newAlunos = [...alunos];
+        let newAlunos = [...alunoSelecionado];
         newAlunos.splice(alunoIndex, 1);
-        setAlunos(newAlunos);
+        setAlunoSelecionado(newAlunos);
       })
       .catch((error) => {
         MySwal.fire({
@@ -83,7 +85,7 @@ const AlunosListagem = () => {
 
   return (
     <Box sx={{ marginTop: "25px" }}>
-      {alunos.length > 0 ? (
+      {alunoSelecionado.length > 0 ? (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
@@ -95,7 +97,7 @@ const AlunosListagem = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {alunos.map((aluno) => (
+              {alunoSelecionado.map((aluno) => (
                 <StyledTableRow>
                   <StyledTableCell>{aluno.nome}</StyledTableCell>
                   <StyledTableCell>{aluno.idade}</StyledTableCell>

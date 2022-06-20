@@ -5,9 +5,10 @@ import ListarMaterias from "../pages/materias/ListarMaterias";
 import CadastrarMaterias from "../pages/materias/CadastrarMaterias";
 import Container from '@mui/material/Container';
 import { useContext } from "react";
-import { TemaContext } from "../context";
+import { TemaContext, AlunoProvider } from "../context";
 import tema from "../tema";
 import Login from "../pages/Login";
+
 
 
 const Routes = () => {
@@ -16,10 +17,10 @@ const Routes = () => {
     { path: "/cadastrar-alunos", element: <CadastrarAlunos /> },
     { path: "/editar-alunos/:id", element: <CadastrarAlunos /> },
     { path: "/login", element: <Login /> },
-    { path: "/materias", element: <ListarMaterias />},
-    { path: "/cadastrar-materias", element: <CadastrarMaterias />},
+    { path: "/materias", element: <ListarMaterias /> },
+    { path: "/cadastrar-materias", element: <CadastrarMaterias /> },
     { path: "/editar-materias/:id", element: <CadastrarMaterias /> },
-    
+
   ]);
 
   return routes;
@@ -27,10 +28,13 @@ const Routes = () => {
 
 const App = () => {
   const { temaSelecionado, setTemaSelecionado } = useContext(TemaContext);
+
   // tema.claro ou tema["claro"] fazem a mesma coisa
   return (
     <Container maxWidth="md" sx={tema[temaSelecionado]}>
-      <Routes />
+      <AlunoProvider>
+        <Routes />
+      </AlunoProvider>     
     </Container>
   );
 };

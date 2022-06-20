@@ -35,3 +35,14 @@ export const UsuarioProvider = ({children}) => {
     </UsuarioContext.Provider>
   );
 };
+
+export const AlunoContext = createContext();
+export const AlunoProvider = ({children}) => {
+  const [alunoSelecionado, setAlunoSelecionado] = useState([]);
+
+  return (
+    <AlunoContext.Provider value={{ alunoSelecionado, setAlunoSelecionado }}>
+      {children}
+    </AlunoContext.Provider>
+  )
+}
